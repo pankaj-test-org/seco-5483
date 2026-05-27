@@ -1,0 +1,24 @@
+node {
+
+    def cbpArtifactId = registerBuildArtifactMetadata(
+            name: "my-artifact",
+            url: "https://example.com",
+            version: "1.0.0.${BUILD_NUMBER}",
+            label: "pan1"
+    )
+
+    echo "Registered artifact: $cbpArtifactId"
+
+    sleep 5
+
+    registerDeployedArtifactMetadata(
+            artifactId: "$cbpArtifactId",
+            targetEnvironment: "PAN"
+    )
+
+    echo "Deploying"
+    if (Math.random() < 0.5) {
+        error "Deployment failed"
+    }
+    echo "Deployment succeeded"
+}
